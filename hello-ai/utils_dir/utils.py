@@ -4,4 +4,5 @@ def print_separator(title=None):
         print(f"\n{'='*20} {title} {'='*20}")
     else:
         print("\n" + "="*50)
+    
     print()
