@@ -37,10 +37,17 @@ The first run will download the GPT-2 model (~500MB) automatically.
 
 ## Dependencies
 
-The project uses:
+Install all dependencies with:
+```bash
+pip install -r requirements.txt
+```
+
+Core packages:
 - `transformers` (4.56.0) - Hugging Face transformers library
+- `anthropic` (0.66.0) - Claude API client
 - `huggingface_hub` - Model hub integration
 - `python-dotenv` - Environment variable management
+- `torch` - PyTorch for local models
 - Supporting packages: `numpy`, `regex`, `safetensors`, `tokenizers`
 
 ## Python Version
