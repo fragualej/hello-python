@@ -12,7 +12,7 @@ def get_completion(prompt):
         
         response = client.messages.create(
             model="claude-3-haiku-20240307",
-            max_tokens=150,
+            max_tokens=500,
             messages=[{"role": "user", "content": prompt}]
         )
         return response.content[0].text
