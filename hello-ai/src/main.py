@@ -11,8 +11,8 @@ from utils.model_manager import model_manager
 def main():
     """Main function with model availability check"""
 
-    print("🚀 Starting AI Demo")
-    print(f"📡 Testing {model_manager.provider.upper()} availability...")
+    print("Starting AI Demo")
+    print(f"Testing {model_manager.provider.upper()} availability...")
 
     # Ping the model to check availability
     if not model_manager.ping_model():
@@ -23,18 +23,18 @@ def main():
         print()
         return
 
-    print(f"🤖 Using {model_manager.provider.upper()} provider")
+    print(f"Using {model_manager.provider.upper()} provider")
     print()
 
     # Run prompting guidelines examples
-    run_guidelines_examples()
+    # run_guidelines_examples()
 
     # Run GEAI-specific demonstrations (only if GEAI is selected)
-    if model_manager.provider == "geai":
-        run_geai_demo()
+    # if model_manager.provider == "geai":
+    #     run_geai_demo()
 
     # Run summarizing examples
-    # run_summarizing_examples()
+    run_summarizing_examples()
 
     # run_inferring_examples()
 
