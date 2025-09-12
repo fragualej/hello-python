@@ -10,10 +10,10 @@ from utils.model_manager import model_manager
 
 def main():
     """Main function with model availability check"""
-    
+
     print("🚀 Starting AI Demo")
     print(f"📡 Testing {model_manager.provider.upper()} availability...")
-    
+
     # Ping the model to check availability
     if not model_manager.ping_model():
         print()
@@ -22,10 +22,10 @@ def main():
         print("   - For GEAI: MODEL_PROVIDER=\"geai\"")
         print()
         return
-    
+
     print(f"🤖 Using {model_manager.provider.upper()} provider")
     print()
-    
+
     # Run prompting guidelines examples
     run_guidelines_examples()
 

@@ -1,5 +1,6 @@
 from utils.utils import print_separator
-from models.claude_api import get_completion
+from utils.model_manager import model_manager
+from prompts.summarizing import get_review_summary_prompt
 
 def single_review_summary():
     """Demonstrate summarizing a single product review"""
@@ -16,17 +17,9 @@ def single_review_summary():
     to her.
     """
 
-    prompt = f"""
-    Your task is to generate a short summary of a product 
-    review from an ecommerce site. 
-
-    Summarize the review below, delimited by triple 
-    backticks, in at most 30 words. 
-
-    Review: ```{prod_review}```
-    """
-
-    response = get_completion(prompt)
+    # Use the simplified prompt template
+    prompt = get_review_summary_prompt(prod_review, max_words=30)
+    response = model_manager.get_completion(prompt)
     print(response)
 
 def multiple_reviews_summary():
@@ -114,19 +107,11 @@ def multiple_reviews_summary():
 
     reviews = [review_1, review_2, review_3, review_4]
 
-    for i in range(len(reviews)):
-        prompt = f"""
-        Your task is to generate a short summary of a product
-        review from an ecommerce site. 
-
-        Summarize the review below, delimited by triple
-        backticks in at most 20 words. 
-
-        Review:```{reviews[i]}```
-        """
-
-        response = get_completion(prompt)
-        print(i, response, "\n")
+    # Use the prompt template for each review (no separate loop needed)
+    for i, review in enumerate(reviews):
+        prompt = get_review_summary_prompt(review, max_words=20)
+        response = model_manager.get_completion(prompt)
+        print(f"{i}: {response}\n")
 
 def run_summarizing_examples():
     """Run all summarizing examples"""
