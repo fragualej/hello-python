@@ -1,5 +1,5 @@
 from utils_dir.utils import print_separator
-from api.claude_api import get_completion
+from models.claude_api import get_completion
 
 def run_sentiment_demo():
     lamp_review = """

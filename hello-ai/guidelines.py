@@ -1,5 +1,5 @@
 from utils_dir.utils import print_separator
-from api.claude_api import get_completion
+from models.claude_api import get_completion
 
 # Tactic 1: Use delimiters to clearly indicate distinct parts of the input
     # * Triple quotes: """ or '''
