@@ -1,6 +1,10 @@
-from guidelines import run_guidelines_examples
-from summarizing import run_summarizing_examples
-from inferring import run_inferring_examples
+import sys
+import os
+sys.path.append(os.path.dirname(__file__))
+
+from agents.guidelines import run_guidelines_examples
+from agents.summarizing import run_summarizing_examples
+from agents.inferring import run_inferring_examples
 
 if __name__ == "__main__":
     # Principles of prompting
