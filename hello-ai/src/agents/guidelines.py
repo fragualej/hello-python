@@ -1,5 +1,7 @@
 from utils.utils import print_separator
 from models.claude_api import get_completion
+from models.geai_api import get_geai_completion
+from utils.model_manager import model_manager
 
 # Tactic 1: Use delimiters to clearly indicate distinct parts of the input
     # * Triple quotes: """ or '''
@@ -28,7 +30,7 @@ def delimiters_demo():
     ```{text}```
     """
 
-    response = get_completion(prompt)
+    response = model_manager.get_completion(prompt)
     print(response)
 
 # Tactic 2: Ask for a structured output
@@ -41,7 +43,7 @@ def structured_output_demo():
     Provide them in JSON format with the following keys:
     book_id, title, author, genre.
     """
-    response = get_completion(prompt)
+    response = model_manager.get_completion(prompt)
     print(response)
 
 # Tactic 3: Ask the model to check whether conditions are satisfied
@@ -108,7 +110,7 @@ def few_shot_demo():
 
     <child>: Teach me about resilience.
     """
-    response = get_completion(prompt)
+    response = model_manager.get_completion(prompt)
     print(response)
 
 # Tactic 1: Specify the steps required to complete a task
@@ -196,7 +198,7 @@ def instruct_model_demo():
     Determine if the student's solution is correct or not.
     ```{text}```
     """
-    response_1 = get_completion(prompt_1)
+    response_1 = model_manager.get_completion(prompt_1)
     print("Prompt No 1")
     print(response_1)
 
@@ -244,9 +246,50 @@ def instruct_model_demo():
     ```
     """
 
-    response_2 = get_completion(prompt_2)
+    response_2 = model_manager.get_completion(prompt_2)
     print("Prompt No 2")
     print(response_2)
+
+def dynamic_model_demo():
+    """Demonstrate dynamic model selection"""
+    print_separator("DYNAMIC MODEL SELECTION DEMO")
+    
+    prompt = """
+    Write a short creative story about a robot learning to paint. 
+    Keep it under 100 words.
+    """
+    
+    print("📝 Prompt:")
+    print(prompt.strip())
+    print()
+    
+    print(f"🤖 Response using {model_manager.provider.upper()} provider:")
+    response = model_manager.get_completion(prompt, max_tokens=150)
+    print(response)
+    print()
+
+def claude_vs_geai_demo():
+    """Compare Claude and GEAI responses side by side"""
+    print_separator("COMPARISON: Claude vs GEAI")
+    
+    prompt = """
+    Explain the concept of artificial intelligence in simple terms 
+    that a 10-year-old could understand. Use an analogy or metaphor.
+    """
+    
+    print("📝 Prompt:")
+    print(prompt)
+    print()
+    
+    print("🔵 Claude Response:")
+    claude_response = get_completion(prompt)
+    print(claude_response)
+    print()
+    
+    print("🟢 GEAI Response:")
+    geai_response = get_geai_completion(prompt, model="gpt-4", max_tokens=300)
+    print(geai_response)
+    print()
 
 def run_guidelines_examples():
     """Run all prompting guidelines examples"""
@@ -256,6 +299,9 @@ def run_guidelines_examples():
     check_conditions_demo()
     few_shot_demo()
     print_separator("")
-    print_separator("PRINCIPLE 2: Give the model time to “think”")
+    print_separator("PRINCIPLE 2: Give the model time to 'think'")
     time_to_think_demo()
     instruct_model_demo()
+    print_separator("")
+    dynamic_model_demo()
+    claude_vs_geai_demo()
