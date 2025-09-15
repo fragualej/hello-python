@@ -5,7 +5,6 @@ sys.path.append(os.path.dirname(__file__))
 from agents.guidelines import run_guidelines_examples
 from agents.summarizing import run_summarizing_examples
 from agents.inferring import run_inferring_examples
-from agents.geai_demo import run_geai_demo
 from utils.model_manager import model_manager
 
 def main():
@@ -34,7 +33,7 @@ def main():
     #     run_geai_demo()
 
     # Run summarizing examples
-    run_summarizing_examples()
+    # run_summarizing_examples()
 
     # run_inferring_examples()
 
