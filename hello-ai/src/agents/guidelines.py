@@ -1,7 +1,7 @@
 from utils.utils import print_separator
 from models.claude_api import get_completion
 from models.geai_api import get_geai_completion
-from utils.model_manager import model_manager
+from utils.model_manager import get_chat_response
 
 # Tactic 1: Use delimiters to clearly indicate distinct parts of the input
     # * Triple quotes: """ or '''
@@ -30,7 +30,7 @@ def delimiters_demo():
     ```{text}```
     """
 
-    response = model_manager.get_completion(prompt)
+    response = get_chat_response(prompt)
     print(response)
 
 # Tactic 2: Ask for a structured output
@@ -43,7 +43,7 @@ def structured_output_demo():
     Provide them in JSON format with the following keys:
     book_id, title, author, genre.
     """
-    response = model_manager.get_completion(prompt)
+    response = get_chat_response(prompt)
     print(response)
 
 # Tactic 3: Ask the model to check whether conditions are satisfied
@@ -110,7 +110,7 @@ def few_shot_demo():
 
     <child>: Teach me about resilience.
     """
-    response = model_manager.get_completion(prompt)
+    response = get_chat_response(prompt)
     print(response)
 
 # Tactic 1: Specify the steps required to complete a task
@@ -198,7 +198,7 @@ def instruct_model_demo():
     Determine if the student's solution is correct or not.
     ```{text}```
     """
-    response_1 = model_manager.get_completion(prompt_1)
+    response_1 = get_chat_response(prompt_1)
     print("Prompt No 1")
     print(response_1)
 
@@ -246,7 +246,7 @@ def instruct_model_demo():
     ```
     """
 
-    response_2 = model_manager.get_completion(prompt_2)
+    response_2 = get_chat_response(prompt_2)
     print("Prompt No 2")
     print(response_2)
 
@@ -264,7 +264,7 @@ def dynamic_model_demo():
     print()
     
     print(f"🤖 Response using {model_manager.provider.upper()} provider:")
-    response = model_manager.get_completion(prompt, max_tokens=150)
+    response = get_chat_response(prompt, max_tokens=150)
     print(response)
     print()
 

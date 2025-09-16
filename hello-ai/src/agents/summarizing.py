@@ -1,5 +1,5 @@
 from utils.utils import print_separator
-from utils.model_manager import model_manager
+from utils.model_manager import get_chat_response
 from prompts.summarizing import get_review_summary_prompt
 
 def single_review_summary():
@@ -19,7 +19,7 @@ def single_review_summary():
 
     # Use the simplified prompt template
     prompt = get_review_summary_prompt(prod_review, max_words=30)
-    response = model_manager.get_completion(prompt)
+    response = get_chat_response(prompt)
     print(response)
 
 def multiple_reviews_summary():
@@ -110,7 +110,7 @@ def multiple_reviews_summary():
     # Use the prompt template for each review (no separate loop needed)
     for i, review in enumerate(reviews):
         prompt = get_review_summary_prompt(review, max_words=20)
-        response = model_manager.get_completion(prompt)
+        response = get_chat_response(prompt)
         print(f"{i}: {response}\n")
 
 def run_summarizing_examples():

@@ -1,77 +1,40 @@
-"""
-Simple GEAI API implementation
-"""
-
 import os
 from dotenv import load_dotenv
 from pygeai.chat.clients import ChatClient
 
 load_dotenv()
 
-def get_geai_completion(prompt, model=None, max_tokens=500):
-    """Generate text using GEAI ChatClient"""
-    # Get configuration
-    api_key = os.getenv('GEAI_API_KEY')
-    base_url = os.getenv('GEAI_API_BASE_URL')
-    project_id = os.getenv('GEAI_PROJECT_ID')
-
-    if not api_key:
-        return "Error: GEAI_API_KEY not found"
-
+def chat(prompt, model=None):
+    """Basic chat function matching documentation examples"""
+    # Get model from env if not specified
     if model is None:
-        model = os.getenv('GEAI_MODEL', 'saia:assistant:PromptTestAgent')
+        model = os.getenv('GEAI_MODEL', 'gpt-4-turbo')
 
     # Create client and make request
     client = ChatClient()
+    messages = [{"role": "user", "content": prompt}]
+
     response = client.chat_completion(
         model=model,
-        messages={"role": "user", "content": prompt},
-        max_tokens=max_tokens
+        messages=messages
     )
 
-    # Return response
-    if isinstance(response, dict):
-        if 'error' in response:
-            return f"Error: {response['error']['message']}"
-        if 'choices' in response and response['choices']:
-            return response['choices'][0]['message']['content']
-        return str(response)
+    return response
 
-    if hasattr(response, 'choices') and response.choices:
-        return response.choices[0].message.content
+def display_assistant_list():
+    """Retrieves and displays the assistant list with summary or full details"""
+    try:
+        from pygeai.organization.clients import OrganizationClient
 
-    return str(response)
+        client = OrganizationClient()
+        assistant_list = client.get_assistant_list(detail="full")  # Can change detail to "summary"
+        print(assistant_list)
+        return assistant_list
+    except Exception as e:
+        print(f"Error getting assistant list: {str(e)}")
+        return f"Error: {str(e)}"
 
-def get_geai_completion_streaming(prompt, model=None, max_tokens=500):
-    """Generate streaming text using GEAI ChatClient"""
-    # Get configuration
-    api_key = os.getenv('GEAI_API_KEY')
-    base_url = os.getenv('GEAI_API_BASE_URL')
-    project_id = os.getenv('GEAI_PROJECT_ID')
-
-    if not api_key:
-        yield "Error: GEAI_API_KEY not found"
-        return
-
-    if model is None:
-        model = os.getenv('GEAI_MODEL', 'saia:assistant:PromptTestAgent')
-
-    # Create client and make streaming request
-    client = ChatClient()
-    stream = client.chat_completion(
-        model=model,
-        messages={"role": "user", "content": prompt},
-        max_tokens=max_tokens,
-        stream=True
-    )
-
-    # Yield chunks
-    for chunk in stream:
-        if hasattr(chunk, 'choices') and chunk.choices:
-            content = chunk.choices[0].delta.content
-            if content:
-                yield content
-        elif isinstance(chunk, dict) and 'choices' in chunk:
-            content = chunk['choices'][0].get('delta', {}).get('content')
-            if content:
-                yield content
+# Backward compatibility
+def get_geai_completion(prompt, model=None, max_tokens=500):
+    """Backward compatibility function"""
+    return chat(prompt, model)

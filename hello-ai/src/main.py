@@ -5,32 +5,26 @@ sys.path.append(os.path.dirname(__file__))
 from agents.guidelines import run_guidelines_examples
 from agents.summarizing import run_summarizing_examples
 from agents.inferring import run_inferring_examples
-from utils.model_manager import model_manager
+from utils.model_manager import get_chat_response
 
 def main():
     """Main function with model availability check"""
 
+    import os
+    provider = os.getenv("MODEL_PROVIDER", "claude").upper()
+
     print("Starting AI Demo")
-    print(f"Testing {model_manager.provider.upper()} availability...")
+    print(f"Using {provider} provider")
+    print()
 
-    # Ping the model to check availability
-    if not model_manager.ping_model():
-        print()
-        print("💡 Suggestion: Update MODEL_PROVIDER in your .env file")
-        print("   - For Claude: MODEL_PROVIDER=\"claude\"")
-        print("   - For GEAI: MODEL_PROVIDER=\"geai\"")
-        print()
-        return
-
-    print(f"Using {model_manager.provider.upper()} provider")
+    # Test basic chat functionality
+    print("Testing basic chat...")
+    response = get_chat_response("Hello, can you introduce yourself?")
+    print(f"Response: {response}")
     print()
 
     # Run prompting guidelines examples
     # run_guidelines_examples()
-
-    # Run GEAI-specific demonstrations (only if GEAI is selected)
-    # if model_manager.provider == "geai":
-    #     run_geai_demo()
 
     # Run summarizing examples
     # run_summarizing_examples()
