@@ -24,7 +24,7 @@ def main():
     print()
 
     # Run prompting guidelines examples
-    # run_guidelines_examples()
+    run_guidelines_examples()
 
     # Run summarizing examples
     # run_summarizing_examples()
